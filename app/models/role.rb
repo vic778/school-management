@@ -1,5 +1,5 @@
 class Role < ApplicationRecord
-    has_many :users
+  has_many :users
 
   enum name: {
     student: 0,
