@@ -1,9 +1,13 @@
 Rails.application.routes.draw do
-  devise_for :users
-  mount Rswag::Ui::Engine => '/api-docs'
+  mount Rswag::Ui::Engine => '/'
   mount Rswag::Api::Engine => '/api-docs'
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  scope :api, defaults: { format: :json } do
+    devise_for :users, controllers: { sessions: :sessions, confirmations: :confirmations},
+                     path_names: { sign_in: :login }
+
+    resource :user, only: [:update, :show]
+    get 'user/auto_login', to: 'users#auto_login'
+
+  end
 end
