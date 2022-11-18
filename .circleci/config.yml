@@ -1,66 +1,26 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
-orbs:
-  ruby: circleci/ruby@1.1.0
-  node: circleci/node@2
-  heroku: circleci/heroku@1.0.1 # Use the Heroku orb in your config
-
+# Define a job to be invoked later in a workflow.
+# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  build:
+  say-hello:
+    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
+    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     docker:
-      - image: cimg/ruby:3.0.3
+      - image: cimg/base:stable
+    # Add steps to the job
+    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       - checkout
-      - ruby/install-deps
-      # Store bundle cache
-      # - node/install-packages:
-      #    pkg-manager: yarn
-      #    cache-key: "yarn.lock"
-  test:
-    parallelism: 3
-    docker:
-      - image: cimg/ruby:3.0.3
-      - image: cimg/postgres:14.2
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_DB: PerxTechBackend_test
-          POSTGRES_PASSWORD: "password"
-    environment:
-      BUNDLE_JOBS: "3"
-      BUNDLE_RETRY: "3"
-      PGHOST: 127.0.0.1
-      PGUSER: postgres
-      PGPASSWORD: "password"
-      RAILS_ENV: test
-    steps:
-      - checkout
-      - ruby/install-deps
-      # - node/install-packages:
-      #    pkg-manager: yarn
-      #    cache-key: "yarn.lock"
       - run:
-          name: Wait for DB
-          command: dockerize -wait tcp://localhost:5432 -timeout 1m
-      - run:
-          name: Database Setup
-          command: |
-            bundle exec rake db:create
-            bundle exec rake db:test:load
-      - run:
-          name: Compile assets
-          command: bundle exec rake assets:precompile
-      - run:
-          name: Parallel RSpec
-          command: bin/rake spec
-      # - run:
-      #     name: Run standardrb check
-      #     command: bundle exec standardrb --format progress
+          name: "Say hello"
+          command: "echo Hello, World!"
 
-workflows: # Ref: https://medium.com/@allanmongej/setting-up-ci-cd-to-a-rails-6-api-with-circleci-and-heroku-c00064f31d57
-  version: 2
-  build_and_test:
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+workflows:
+  say-hello-workflow:
     jobs:
-      - build
-      - test:
-          requires:
-            - build
+      - say-hello
