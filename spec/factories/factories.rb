@@ -7,4 +7,17 @@ FactoryBot.define do
       instance.reload
     end
   end
+
+  factory :user do
+    name { Faker::Name.name }
+    email { Faker::Internet.email }
+    password { '12345678' }
+    password_confirmation { '12345678' }
+    role
+
+    to_create do |instance|
+      instance.id = User.find_or_create_by(email: instance.email).id
+      instance.reload
+    end
+  end
 end
