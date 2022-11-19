@@ -31,7 +31,7 @@ class PermissionsController < ApplicationController
     @current_user_id.present?
   end
 
-  def only_admin
+  def only_teacher
     if current_user.role.name == "teacher"
       action = params[:action]
     else
