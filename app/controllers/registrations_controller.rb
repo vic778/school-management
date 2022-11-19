@@ -1,5 +1,22 @@
-class PermissionsController < ApplicationController
+class RegistrationsController < Devise::RegistrationsController
+  #   include Auth
   before_action :authenticate_user
+  before_action :authenticate_user!
+  before_action :only_teacher, only: %i[show update destroy create]
+  def create
+    user = User.new(user_params)
+    if user.save
+      render json: { status: 'Thank you for joining Oivan platform, please check your email and verify your account!' }
+    else
+      render json: { errors: user.errors.full_messages }
+    end
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:email, :password, :password_confirmation, :name)
+  end
 
   def auth_header
     request.headers['Authorization']
