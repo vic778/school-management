@@ -31,6 +31,7 @@ gem "jbuilder"
 gem "redis", "~> 4.0"
 
 # Additional gems
+gem 'active_model_serializers', '~> 0.10.13'
 gem 'devise'
 gem 'dotenv-rails'
 gem 'jwt'
