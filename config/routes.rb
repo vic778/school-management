@@ -1,10 +1,4 @@
 Rails.application.routes.draw do
-  namespace :admin do
-      resources :roles
-      resources :users
-
-      root to: "roles#index"
-    end
   mount Rswag::Ui::Engine => '/'
   mount Rswag::Api::Engine => '/api-docs'
 
