@@ -9,4 +9,4 @@
 # Create roles
 role = Role.find_or_create_by!(name: "teacher")
 # First Teacher account
-User.create(name: "Teacher", email: "teacher@example.com", password: "12345678", password_confirmation: "12345678", role_id: role.id)
+User.create(name: "Teacher", email: "teacher@example.com", password: "12345678", password_confirmation: "12345678", role_id: role.id, confirmed_at: Time.now)
