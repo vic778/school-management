@@ -10,9 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_19_124146) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_19_133620) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "answers", force: :cascade do |t|
+    t.string "name"
+    t.boolean "answer", default: false
+    t.bigint "question_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_answers_on_question_id"
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.bigint "test_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["test_id"], name: "index_questions_on_test_id"
+  end
 
   create_table "roles", force: :cascade do |t|
     t.integer "name", default: 0, null: false
@@ -48,5 +66,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_19_124146) do
     t.index ["role_id"], name: "index_users_on_role_id"
   end
 
+  add_foreign_key "answers", "questions"
+  add_foreign_key "questions", "tests"
   add_foreign_key "users", "roles"
 end

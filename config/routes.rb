@@ -9,7 +9,11 @@ Rails.application.routes.draw do
     resource :user, only: [:update, :show, :destroy]
     get 'user/auto_login', to: 'users#auto_login'
 
-    resources :tests
+    resources :tests do 
+        resources :questions do
+            resources :answers
+        end
+    end
 
   end
 end
