@@ -6,16 +6,7 @@ class RegistrationsController < Devise::RegistrationsController
   def create
     user = User.new(user_params)
     if user.save
-      render json: { status: 'User created' }
-    else
-      render json: { errors: user.errors.full_messages }
-    end
-  end
-
-  def update
-    user = User.find(params[:id])
-    if user.update_attributes(user_params)
-      render json: { status: 'User updated' }
+      render json: { status: 'Thank you for joining Oivan platform, please check your email and verify your account!' }
     else
       render json: { errors: user.errors.full_messages }
     end
