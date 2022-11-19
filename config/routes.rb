@@ -6,13 +6,10 @@ Rails.application.routes.draw do
       devise_for :users, controllers: { registrations: :registrations, sessions: :sessions, confirmations: :confirmations},
                       path_names: { sign_in: :login, registration: :register }
 
-      # devise_scope : do
-      #     post 'register', to: 'registrations#create'
-      #     put 'users/:id', to: 'registrations#update'
-      # end
-
     resource :user, only: [:update, :show, :destroy]
     get 'user/auto_login', to: 'users#auto_login'
+
+    resources :tests
 
   end
 end
