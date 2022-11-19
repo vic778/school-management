@@ -11,7 +11,7 @@ Rails.application.routes.draw do
       #     put 'users/:id', to: 'registrations#update'
       # end
 
-    resource :user, only: [:update, :show]
+    resource :user, only: [:update, :show, :destroy]
     get 'user/auto_login', to: 'users#auto_login'
 
   end

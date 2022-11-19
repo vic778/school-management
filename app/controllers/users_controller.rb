@@ -1,15 +1,32 @@
 class UsersController < PermissionsController
   before_action :authenticate_user!
+  before_action :only_teacher, only: %i[update destroy show]
 
-  def show; end
+  def show
+    user = User.find_by(id: params[:user_id])
+    if user
+      render json: user
+    else
+      render json: { error: "User not found" }
+    end
+  end
 
   def update
-    if current_user.update!(user_params)
-      render json: {
-        user: current_user
-      }
+    user = User.find_by(id: params[:user_id])
+    if user.save
+      user.update(user_params)
+      render json: user
     else
-      render json: { errors: current_user.errors }, status: :unprocessable_entity
+      render json: { error: "User not found" }
+    end
+  end
+
+  def destroy
+    user = User.find_by(id: params[:user_id])
+    if user.destroy
+      render json: { message: "User deleted" }
+    else
+      render json: { error: "User not found" }
     end
   end
 
@@ -22,6 +39,6 @@ class UsersController < PermissionsController
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    params.permit(:name, :email, :password, :password_confirmation, :role_id)
   end
 end
