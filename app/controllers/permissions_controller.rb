@@ -30,4 +30,12 @@ class PermissionsController < ApplicationController
   def signed_in?
     @current_user_id.present?
   end
+
+  def only_admin
+    if current_user.role.name == "teacher"
+      action = params[:action]
+    else
+      render json: { error: "Only the teacher can perform this action" }, status: :unauthorized
+    end
+  end
 end
