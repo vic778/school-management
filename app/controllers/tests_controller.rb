@@ -6,7 +6,7 @@ class TestsController < PermissionsController
   def index
     @tests = Test.all
     if @tests
-      render json: { success: true, tests: @tests }
+      render json: { success: true, tests: @tests }, status: :ok
     else
       render json: { success: false, error: '[]' }
     end
@@ -14,34 +14,35 @@ class TestsController < PermissionsController
 
   def show
     if @test
-      render json: { success: true, test: @test, questions: @test.questions }
+      render json: { success: true, test: @test, questions: @test.questions }, status: :ok
     else
-      render json: { success: false, error: '[]' }
+      render json: { success: false, error: '[]' }, status: :not_found
     end
   end
 
   def create
     @test = Test.new(test_params)
-    if @test.save
-      render json: { success: true, message: "Test created successfully", test: @test }
+    # binding.pry
+    if @test.save!
+      render json: { success: true, message: "Test created successfully", test: @test }, status: :created
     else
-      render json: { success: false, error: @test.errors.full_messages }
+      render json: { success: false, error: @test.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   def update
     if @test.update(test_params)
-      render json: { success: true, message: "Test updated successfully", test: @test }
+      render json: { success: true, message: "Test updated successfully", test: @test }, status: :ok
     else
-      render json: { success: false, error: @test.errors.full_messages }
+      render json: { success: false, error: @test.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   def destroy
     if @test.destroy
-      render json: { success: true, message: "Test deleted successfully", test: @test }
+      render json: { success: true, message: "Test deleted successfully", test: @test }, status: :ok
     else
-      render json: { success: false, error: @test.errors.full_messages }
+      render json: { success: false, error: @test.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -53,6 +54,6 @@ class TestsController < PermissionsController
   end
 
   def test_params
-    params.permit(:name, :description)
+    params[:test].permit(:name, :description)
   end
 end
