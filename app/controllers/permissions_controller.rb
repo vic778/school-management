@@ -7,13 +7,10 @@ class PermissionsController < ApplicationController
 
   def authenticate_user
     if request.headers['Authorization'].present?
-      authenticate_or_request_with_http_token do |token|
-        jwt_payload = JWT.decode(token, 'vicSecret', true, algorithm: 'HS256').first
-
-        @current_user_id = jwt_payload['id']
-      rescue JWT::ExpiredSignature, JWT::VerificationError, JWT::DecodeError
-        render json: { error: "Unauthorized access" }, status: :unauthorized
-      end
+      token = request.headers['Authorization'].split(' ').last
+      # binding.pry
+      jwt_payload = JWT.decode(token, 'vicSecret', true, algorithm: 'HS256').first
+      @current_user_id = jwt_payload['id']
     end
   end
 
