@@ -1,5 +1,26 @@
 require 'rails_helper'
 
 RSpec.describe Question, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'associations' do
+    it { should belong_to(:test) }
+  end
+
+  describe 'validations' do
+    it { should validate_presence_of(:title) }
+    it { should validate_presence_of(:description) }
+  end
+
+  describe 'invalidations' do
+    it 'is invalid without title' do
+      question = FactoryBot.build(:question, title: nil)
+      question.valid?
+      expect(question.errors[:title]).to include("can't be blank")
+    end
+
+    it 'is invalid without description' do
+      question = FactoryBot.build(:question, description: nil)
+      question.valid?
+      expect(question.errors[:description]).to include("can't be blank")
+    end
+  end
 end
