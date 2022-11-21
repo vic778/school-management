@@ -1,12 +1,13 @@
 class RegistrationsController < Devise::RegistrationsController
   #   include Auth
-  before_action :authenticate_user
-  before_action :authenticate_user!
-  before_action :only_teacher, only: %i[show update destroy create]
+  # before_action :authenticate_user
+  # before_action :authenticate_user!
+  # before_action :only_teacher, only: %i[show update destroy create]
   def create
+    # binding.pry
     user = User.new(user_params)
     if user.save
-      render json: { status: 'Thank you for joining Oivan platform, please check your email and verify your account!' }
+      render json: 'Thank you for joining Oivan platform, please check your email and verify your account!', status: :created
     else
       render json: { errors: user.errors.full_messages }
     end
