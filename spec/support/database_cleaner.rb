@@ -1,16 +1,16 @@
-begin
-  require 'database_cleaner'
-  require 'database_cleaner/cucumber'
+require "database_cleaner"
 
-  DatabaseCleaner.strategy = :truncation
-rescue NameError
-  raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
-end
+RSpec.configure do |config|
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
 
-Before do
-  DatabaseCleaner.start
-end
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
 
-After do |_scenario|
-  DatabaseCleaner.clean
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 end
