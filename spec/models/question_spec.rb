@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe Question, type: :model do
   describe 'associations' do
     it { should belong_to(:test) }
+    it { should have_many(:answers) }
+    it { should have_one(:correct_answer) }
   end
 
   describe 'validations' do
