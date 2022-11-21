@@ -15,11 +15,6 @@ FactoryBot.define do
     password_confirmation { '12345678' }
     association :role, factory: :role
 
-    to_create do |instance|
-      instance.id = User.find_or_create_by(email: instance.email).id
-      instance.reload
-    end
-
     trait :teacher do
       association :role, factory: :role, name: 'teacher'
     end
@@ -27,41 +22,36 @@ FactoryBot.define do
     trait :student do
       association :role, factory: :role, name: 'student'
     end
-  end
 
-  FactoryBot.define do
-    factory :test do
-      sequence :name do |n|
-        "Test #{n}"
-      end
-      description { "MyText" }
+    trait :with_confirmed_email do
+      confirmed_at { Time.now }
     end
   end
 
-  FactoryBot.define do
-    factory :question do
-      sequence :title do |n|
-        "Question #{n}"
-      end
-      description { "MyText" }
-      association :test, factory: :test
+  factory :test do
+    sequence :name do |n|
+      "Test #{n}"
     end
+    description { "MyText" }
+  end
+
+  factory :question do
+    sequence :title do |n|
+      "Question #{n}"
+    end
+    description { "MyText" }
+    association :test, factory: :test
+
     trait :teacher do
       association :role, factory: :role, name: 'teacher'
     end
   end
 
-  FactoryBot.define do
-    factory :answer do
-      sequence :name do |n|
-        "Answer #{n}"
-      end
-      answer { false }
-      association :question, factory: :question
+  factory :answer do
+    sequence :name do |n|
+      "Answer #{n}"
     end
-
-    # trait :teacher do
-    #   association :role, factory: :role, name: 'teacher'
-    # end
+    answer { false }
+    association :question, factory: :question
   end
 end
