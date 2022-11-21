@@ -20,4 +20,40 @@ FactoryBot.define do
       instance.reload
     end
   end
+
+  FactoryBot.define do
+    factory :test do
+      sequence :name do |n|
+        "Test #{n}"
+      end
+      description { "MyText" }
+    end
+  end
+
+  FactoryBot.define do
+    factory :question do
+      sequence :title do |n|
+        "Question #{n}"
+      end
+      description { "MyText" }
+      association :test, factory: :test
+    end
+    trait :teacher do
+      association :role, factory: :role, name: 'teacher'
+    end
+  end
+
+  FactoryBot.define do
+    factory :answer do
+      sequence :name do |n|
+        "Answer #{n}"
+      end
+      answer { false }
+      association :question, factory: :question
+    end
+
+    trait :teacher do
+      association :role, factory: :role, name: 'teacher'
+    end
+  end
 end

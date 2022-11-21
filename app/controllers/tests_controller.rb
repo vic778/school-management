@@ -49,7 +49,6 @@ class TestsController < PermissionsController
 
   def set_test
     @test = Test.find(params[:id])
-    # include: [:questions]
     @test.questions
   end
 
