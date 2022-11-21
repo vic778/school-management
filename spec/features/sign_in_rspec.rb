@@ -7,4 +7,11 @@ def sign_in_teacher
   res = JSON.parse(response.body)
   res["user"]
 end
+
+def sign_in_student
+  user = create(:user, :with_confirmed_email)
+  post '/api/users/login', params: { user: { email: user.email, password: user.password } }
+  res = JSON.parse(response.body)
+  res["user"]
+end
 # end
