@@ -9,8 +9,8 @@ class User < ApplicationRecord
 
   after_initialize :set_default_role
 
-  def admin?
-    role.name == 'admin'
+  def teacher?
+    role.name == 'teacher'
   end
 
   def has_permission?(action, resource)
