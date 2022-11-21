@@ -13,11 +13,19 @@ FactoryBot.define do
     email { Faker::Internet.email }
     password { '12345678' }
     password_confirmation { '12345678' }
-    role
+    association :role, factory: :role
 
     to_create do |instance|
       instance.id = User.find_or_create_by(email: instance.email).id
       instance.reload
+    end
+
+    trait :teacher do
+      association :role, factory: :role, name: 'teacher'
+    end
+
+    trait :student do
+      association :role, factory: :role, name: 'student'
     end
   end
 
@@ -52,8 +60,8 @@ FactoryBot.define do
       association :question, factory: :question
     end
 
-    trait :teacher do
-      association :role, factory: :role, name: 'teacher'
-    end
+    # trait :teacher do
+    #   association :role, factory: :role, name: 'teacher'
+    # end
   end
 end
