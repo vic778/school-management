@@ -14,7 +14,7 @@ class TestsController < PermissionsController
 
   def show
     if @test
-      render json: { success: true, test: @test }
+      render json: { success: true, test: @test, questions: @test.questions }
     else
       render json: { success: false, error: '[]' }
     end
@@ -49,6 +49,8 @@ class TestsController < PermissionsController
 
   def set_test
     @test = Test.find(params[:id])
+    # include: [:questions]
+    @test.questions
   end
 
   def test_params
