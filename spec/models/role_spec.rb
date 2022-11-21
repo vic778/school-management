@@ -30,5 +30,4 @@ RSpec.describe Role, type: :model do
       expect(role.teacher?).to be false
     end
   end
-
 end
