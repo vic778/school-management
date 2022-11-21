@@ -1,15 +1,42 @@
 module Auth
-  extend ActiveSupport::Concern
+  class Authorize
+    # before_action :authenticate_user
+    def auth_header
+      request.headers['Authorization']
+    end
 
-  def authenticate_user!
-    u = User.find_by(email: request.headers['X-User-Email'])
-    if @current_user.nil?
-      render json: { error: "You need to sign in or sign up before continuing." }, status: :unauthorized
-      p "here is the current user#{@current_user}"
-    else
-      action = params[:action]
-      resource = params[:controller].split('/').last.singularize
-      render json: { error: "You don't have the permission to perform this action" }, status: :unauthorized unless @current_user.has_permission?(action, resource)
+    def authenticate_user
+      if request.headers['Authorization'].present?
+        authenticate_or_request_with_http_token do |token|
+          jwt_payload = JWT.decode(token, 'vicSecret', true, algorithm: 'HS256').first
+
+          @current_user_id = jwt_payload['id']
+        rescue JWT::ExpiredSignature, JWT::VerificationError, JWT::DecodeError
+          render json: { error: "Unauthorized access" }, status: :unauthorized
+        end
+      end
+    end
+
+    def authenticate_user!(_options = {})
+      render json: { loggedIn: false, result: [], message: 'Please log in to continue' } unless signed_in?
+    end
+
+    def current_user
+      @current_user ||= super || User.find(@current_user_id)
+    rescue StandardError
+      head :unauthorized
+    end
+
+    def signed_in?
+      @current_user_id.present?
+    end
+
+    def only_teacher
+      if current_user.role.name == "teacher"
+        action = params[:action]
+      else
+        render json: { error: "Only the teacher can perform this action" }, status: :unauthorized
+      end
     end
   end
 end
