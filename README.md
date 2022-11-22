@@ -8,6 +8,9 @@
   - Question mondel 
   - Answer Model
   
+### Video Demo
+[Video demo](https://www.loom.com/share/6139af6a6a384ab49421e0111e4b7d89)
+  
 ### ERD PG
 ![img](app/assets/images/screen1.png)
 
