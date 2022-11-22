@@ -1,0 +1,283 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+components:
+  securitySchemes:
+    bearer_auth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+paths:
+  "/api/questions":
+    get:
+      summary: Questions
+      tags:
+      - Questions
+      security:
+      - bearer_auth: []
+      responses:
+        '200':
+          description: question
+    post:
+      summary: Creates a question
+      tags:
+      - Questions
+      security:
+      - bearer_auth: []
+      parameters: []
+      responses:
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                question:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    description:
+                      type: string
+                  required:
+                  - name
+                  - description
+              required:
+              - question
+  "/api/questions/{id}":
+    get:
+      summary: Questions
+      tags:
+      - Questions
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: question
+    put:
+      summary: Updates a question
+      tags:
+      - Questions
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                question:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    description:
+                      type: string
+                  required:
+                  - name
+                  - description
+              required:
+              - question
+    delete:
+      summary: Deletes a question
+      tags:
+      - Questions
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: question deleted
+  "/api/users/register":
+    post:
+      summary: Creates a user
+      tags:
+      - Users
+      security:
+      - bearer_auth: []
+      parameters: []
+      responses:
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    password:
+                      type: string
+                    password_confirmation:
+                      type: string
+                  required:
+                  - username
+                  - email
+                  - password
+                  - password_confirmation
+              required:
+              - user
+  "/api/users/login":
+    post:
+      summary: Logs in a user
+      tags:
+      - Users
+      parameters: []
+      responses:
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    password:
+                      type: string
+                  required:
+                  - email
+                  - password
+              required:
+              - user
+  "/api/tests":
+    get:
+      summary: Tests
+      tags:
+      - Tests
+      security:
+      - bearer_auth: []
+      responses:
+        '200':
+          description: test
+    post:
+      summary: Creates a test
+      tags:
+      - Tests
+      security:
+      - bearer_auth: []
+      parameters: []
+      responses:
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                test:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    description:
+                      type: string
+                  required:
+                  - name
+                  - description
+              required:
+              - test
+  "/api/tests/{id}":
+    get:
+      summary: Tests
+      tags:
+      - Tests
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: test
+    put:
+      summary: Updates a test
+      tags:
+      - Tests
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                test:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    description:
+                      type: string
+                  required:
+                  - name
+                  - description
+              required:
+              - test
+    delete:
+      summary: Deletes a test
+      tags:
+      - Tests
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: test deleted
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000

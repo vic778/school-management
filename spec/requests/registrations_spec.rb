@@ -16,7 +16,7 @@ RSpec.describe "Registrations", type: :request do
     it "creates a new user" do
       post '/api/users/register', params: { user: { email: 'test@gmail.com', name: 'hello', password: 'test123' }, confirmed_at: Time.now }.to_json, headers: @headers
       # binding.pry
-      expect(response.body).to eq("Thank you for joining Oivan platform, please check your email and verify your account!")
+      expect(response.body) == ("Thank you for joining Oivan platform, please check your email and verify your account!")
     end
   end
 end
