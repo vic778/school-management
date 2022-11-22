@@ -44,8 +44,7 @@ jobs:
       - run:
           name: Database Setup
           command: |
-            bundle exec rails db:reset
-          
+            bundle exec rake db:create
             bundle exec rake db:test:load
       - run:
           name: Compile assets
