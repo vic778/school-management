@@ -2,7 +2,8 @@
 
 # RSpec.feature "User signs in" do
 def sign_in_teacher
-  user = create(:user, :with_confirmed_email)
+  role = create(:role, name: "teacher")
+  user = create(:user, :with_confirmed_email, role: role)
   post '/api/users/login', params: { user: { email: user.email, password: user.password } }
   res = JSON.parse(response.body)
   res["user"]
