@@ -10,7 +10,9 @@ Rails.application.routes.draw do
     get 'user/auto_login', to: 'users#auto_login'
 
     resources :tests do 
-        resources :questions
+        resources :questions do
+            resources :answers
+        end
     end
     post 'tests/:test_id/questions/:id/answers/:answer_id', to: 'questions#scope_questions'
   end

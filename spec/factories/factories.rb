@@ -13,11 +13,49 @@ FactoryBot.define do
     email { Faker::Internet.email }
     password { '12345678' }
     password_confirmation { '12345678' }
-    role
+    association :role, factory: :role
 
-    to_create do |instance|
-      instance.id = User.find_or_create_by(email: instance.email).id
-      instance.reload
+    trait :teacher do
+      association :role, factory: :role, name: 'teacher'
+    end
+
+    trait :student do
+      association :role, factory: :role, name: 'student'
+    end
+
+    trait :with_confirmed_email do
+      confirmed_at { Time.now }
+    end
+  end
+
+  factory :test do
+    sequence :name do |n|
+      "Test #{n}"
+    end
+    description { "MyText" }
+  end
+
+  factory :question do
+    sequence :title do |n|
+      "Question #{n}"
+    end
+    description { "MyText" }
+    association :test, factory: :test
+
+    trait :teacher do
+      association :role, factory: :role, name: 'teacher'
+    end
+  end
+
+  factory :answer do
+    sequence :name do |n|
+      "Answer #{n}"
+    end
+
+    association :question, factory: :question
+
+    trait :answer_true do
+      answer { true }
     end
   end
 end

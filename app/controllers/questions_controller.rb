@@ -7,17 +7,17 @@ class QuestionsController < PermissionsController
     @test = Test.find(params[:test_id])
     @questions = @test.questions.all
     if @questions
-      render json: { success: true, questions: @questions }
+      render json: { success: true, questions: @questions }, status: :ok
     else
-      render json: { success: false, error: '[]' }
+      render json: { success: false, error: '[]' }, status: :unprocessable_entity
     end
   end
 
   def show
     if @question
-      render json: { success: true, question: @question, answers: @question.answers }
+      render json: { success: true, question: @question, answers: @question.answers }, status: :ok
     else
-      render json: { success: false, error: '[]' }
+      render json: { success: false, error: '[]' }, status: :unprocessable_entity
     end
   end
 
