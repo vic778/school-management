@@ -7,7 +7,6 @@ RSpec.describe Answer, type: :model do
 
   describe 'validations' do
     it { should validate_presence_of(:name) }
-    it { should validate_presence_of(:answer) }
   end
 
   describe 'invalidations' do
@@ -21,12 +20,6 @@ RSpec.describe Answer, type: :model do
       answer = FactoryBot.build(:answer, name: nil)
       answer.valid?
       expect(answer.errors[:name]).to include("can't be blank")
-    end
-
-    it 'is invalid without answer' do
-      answer = FactoryBot.build(:answer, answer: nil)
-      answer.valid?
-      expect(answer.errors[:answer]).to include("can't be blank")
     end
   end
 end
