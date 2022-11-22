@@ -51,7 +51,11 @@ FactoryBot.define do
     sequence :name do |n|
       "Answer #{n}"
     end
-    answer { false }
+
     association :question, factory: :question
+
+    trait :answer_true do
+      answer { true }
+    end
   end
 end
